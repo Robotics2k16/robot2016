@@ -1,3 +1,4 @@
+#pragma config(Motor, port2, seeder, tmotorServoStandard, openLoop)
 #pragma config(Motor, port3, leftWheel, tmotorVex393_MC29, openLoop)
 #pragma config(Motor, port4, rightWheel, tmotorVex393_MC29, openLoop, reversed)
 #pragma config(Motor, port5, handLeft, tmotorServoStandard, openLoop)
@@ -14,6 +15,8 @@ Buttons mapping:
 	Btn6U - Hand Rotate Right
 	Btn5D - Raise Arm
 	Btn6D - Lower Arm
+	Btn7D - Close Seeder
+	Btn7U - Open Seeder
 	Btn8D - Open Hand
 	Btn8U - Closes Hand
 ******************************************/
@@ -42,6 +45,24 @@ task main ()
 			motor[rightWheel] = 0;
 		}
 
+		// Open seeder
+		if (vexRT[Btn7D] == 1) {
+
+			if (motor[seederopen] < maxServoPos) {
+				motor[seederopen] = motor[seederopen] + servoIncrement;
+				motor[seederclose] = motor[seederclose] - servoIncrement;
+			}
+		}
+
+		// Close seeder
+		if (vexRT[Btn7U] == 1) {
+
+			if (motor[seederopen] > maxServoNeg ) {
+				motor[seederopen] = motor[seederopen] - servoIncrement;
+				motor[seederclose] = motor[seederclose] + servoIncrement;
+			}
+		}
+		
 		// Open hand
 		if (vexRT[Btn8D] == 1) {
 
